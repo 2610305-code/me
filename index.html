@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>기사단의 원형 석조 성채 🌟</title>
+  <!-- Google Fonts & Tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- QRCode.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #0c4a6e;
+      overflow: hidden;
+      height: 100vh;
+    }
+    .serif-title {
+      font-family: 'Cinzel', serif;
+    }
+
+    /* Floating Shield/Plaque Elements Anim */
+    @keyframes cardIn {
+      from {
+        transform: scale(0.6) translateY(60px) rotate(-5deg);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1) translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+    }
+    .letter-card {
+      animation: cardIn 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+
+    @keyframes floatUpDown {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg) scale(1);
+      }
+      50% {
+        transform: translateY(-12px) rotate(1deg) scale(1.02);
+      }
+    }
+
+    /* Side list elements entrance animation */
+    @keyframes fadeSlideIn {
+      from {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    .panel-item {
+      animation: fadeSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Transition for cards decaying */
+    .fade-out-transition {
+      transition: all 600ms cubic-bezier(0.3, 0, 0.7, 1);
+      opacity: 0 !important;
+      transform: scale(0.8) translateY(-40px) rotate(4deg) !important;
+      filter: blur(4px);
+    }
+
+    /* Teak wood theme sidebar border styling */
+    .wood-sidebar {
+      background: linear-gradient(180deg, #134e4a 0%, #0f766e 100%);
+      border-right: 4px solid #b45309;
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body class="relative flex text-slate-100 select-none w-screen h-screen">
+
+  <!-- Background Canvas for Animated Maldives Sea Waves and Sparkles -->
+  <canvas id="starfield" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+  <!-- Decorative Castle Silhouettes Battlements layered over background -->
+  <div class="fixed bottom-0 left-0 right-0 h-[60px] pointer-events-none z-10 opacity-20 flex justify-around items-end select-none">
+    <div class="w-16 h-12 bg-amber-950/45 border-t border-amber-500/20 rounded-t-lg"></div>
+    <div class="w-16 h-16 bg-amber-950/45 border-t border-amber-500/20 rounded-t-lg"></div>
+    <div class="w-24 h-10 bg-amber-950/45 border-t border-amber-500/20 rounded-t-lg"></div>
+    <div class="w-16 h-20 bg-amber-950/45 border-t border-amber-500/20 rounded-t-lg"></div>
+    <div class="w-20 h-14 bg-amber-950/45 border-t border-amber-500/20 rounded-t-lg"></div>
+  </div>
+
+  <!-- Flying Golden Knightly Messenger Shield Carrier -->
+  <div id="envelope-carrier" class="fixed z-40 pointer-events-none transition-all duration-[800ms]" style="left: -150px; top: 40%; opacity: 0;">
+    <svg width="120" height="90" viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.45));">
+      <!-- Wing Left -->
+      <path id="wl" d="M 25 45 C 5 25, 10 10, 20 5 C 15 15, 18 35, 25 45 Z" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" style="transform-origin: 25px 45px;"/>
+      
+      <!-- Wing Right -->
+      <path id="wr" d="M 95 45 C 115 25, 110 10, 100 5 C 105 15, 102 35, 95 45 Z" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" style="transform-origin: 95px 45px;"/>
+
+      <!-- Golden Royal Shield Body -->
+      <path d="M 35 20 L 85 20 L 85 45 Q 85 70, 60 85 Q 35 70, 35 45 Z" fill="url(#goldGradient)" stroke="#78350f" stroke-width="2.5"/>
+      
+      <!-- Royal Crown drawing inside shield -->
+      <polygon points="45,45 50,32 55,42 60,30 65,42 70,32 75,45 45,45" fill="#fdfaeb" stroke="#b45309" stroke-width="1"/>
+      <circle cx="60" cy="55" r="5" fill="#ef4444"/>
+
+      <!-- Wax Seal Scroll attached -->
+      <rect x="52" y="10" width="16" height="12" rx="2" fill="#ef4444" stroke="#991b1b" stroke-width="1.5"/>
+
+      <!-- Gradients Definitions -->
+      <defs>
+        <radialGradient id="goldGradient" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fbbf24"/>
+          <stop offset="70%" stop-color="#f59e0b"/>
+          <stop offset="100%" stop-color="#b45309"/>
+        </radialGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- Left Sidebar Panel - Polished Lagoon Pine Wood Style -->
+  <aside class="w-[245px] wood-sidebar flex flex-col z-10 h-full">
+    <!-- Sidebar Header -->
+    <div class="p-5 border-b-2 border-amber-700/40 bg-teal-950/20 text-center">
+      <div class="text-3xl mb-1 select-none">🏰</div>
+      <h2 class="serif-title text-md font-black tracking-widest text-[#fbd38d]">
+        성채 무도함
+      </h2>
+      <p class="text-[9px] text-[#2dd4bf] font-bold tracking-widest uppercase mt-0.5">Grand Citadel Ledger</p>
+      
+      <!-- Quick navigation button to compose message -->
+      <a href="letter.html" class="mt-4 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[#d97706] hover:bg-[#b45309] active:scale-95 text-amber-50 rounded-xl text-xs font-bold shadow-md transition-all">
+        <span>✍️</span> 기사 편지 쓰기 화면
+      </a>
+    </div>
+    
+    <!-- Realtime list entries (Max 8 in reverse order) -->
+    <div id="side-presents" class="flex-1 overflow-y-auto px-4.5 py-4 space-y-3.5 custom-scrollbar">
+      <!-- Filled programmatically -->
+      <div class="text-center text-xs text-teal-200/55 py-12 font-medium">
+        성채의 기사를 기다리는 중...
+      </div>
+    </div>
+
+    <!-- Sidebar Footer with Administrator Access Link -->
+    <div class="p-3.5 border-t border-amber-800/30 bg-teal-950/35 text-center select-none">
+      <a href="admin.html" class="inline-flex items-center gap-1.5 text-[10px] font-bold text-teal-300/85 hover:text-[#fbd38d] transition-all">
+        <span>🛡️</span> 검열 수련장 입장
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Active Canvas Screen -->
+  <main class="flex-1 relative z-10 h-full p-6 flex flex-wrap items-center justify-center gap-6 overflow-hidden">
+    <!-- Message Board Floating Stage -->
+    <div id="card-stage" class="w-full h-full relative flex items-center justify-center">
+      <!-- Letters float like enchanted golden scrolls rising from the sand -->
+      <div class="text-center space-y-3 pointer-events-none opacity-30">
+        <div class="text-6xl animate-bounce duration-2000">👑</div>
+        <p class="serif-title text-sm font-bold text-amber-200">기사의 전령들이 바다 위에 부유합니다</p>
+        <p class="text-[10px] text-teal-200/70">말디브 바다 아래 고대 검의 빛이 뿜어집니다</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Fixed QR Code Card wrapped in Ancient Gold Scroll styling (Top-Right) -->
+  <div class="fixed right-5 top-5 bg-[#fdfaf2] text-[#78350f] border-4 border-[#b45309] shadow-2xl p-3.5 rounded-[22px] z-20 w-[156px] text-center transition-all hover:scale-105 duration-300">
+    <div id="qr-container" class="w-[124px] h-[124px] flex items-center justify-center mx-auto bg-white rounded-xl p-1.5 shadow-inner"></div>
+    
+    <div class="mt-2 flex flex-col items-center">
+      <button 
+        id="qr-url-display" 
+        onclick="copyQRUrl()" 
+        class="w-full text-[8.5px] bg-amber-800/15 hover:bg-amber-800/25 active:scale-95 text-amber-900 border border-amber-800/20 px-2 py-1 rounded font-mono break-all line-clamp-1 truncate select-all cursor-pointer transition-all flex items-center justify-center gap-1"
+        title="복사하려면 클릭하세요"
+      >
+        <span>🔗 Link Copy</span>
+      </button>
+    </div>
+
+    <div class="serif-title text-[11px] font-black tracking-widest text-[#78350f] mt-2 flex items-center justify-center gap-1">
+      ⚜️ 서찰 봉인하기 ⚜️
+    </div>
+    <div class="text-[9px] text-amber-800/70 font-semibold uppercase mt-0.5 mb-2.5">Citadel Envoy</div>
+    
+    <!-- Direct click button for browser/desktop testing -->
+    <a href="letter.html" class="block w-full py-2 bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 active:scale-95 text-amber-100 rounded-xl text-[10px] font-bold tracking-tight shadow-md transition-all">
+      ✍️ 직접 편지 쓰기
+    </a>
+  </div>
+
+  <!-- Total Counters Stat - Styled as Roman Bronze Plaque (Bottom-Right) -->
+  <div class="fixed right-5 bottom-5 bg-gradient-to-r from-[#1e293b] to-[#451a03] border-2 border-amber-600/60 rounded-2xl px-4 py-2.5 z-20 flex items-center gap-3 shadow-2xl">
+    <div class="w-3 h-3 bg-amber-400 rounded-full animate-ping flex items-center justify-center">
+      <div class="w-1.5 h-1.5 bg-amber-500 rounded-full"></div>
+    </div>
+    <div class="flex flex-col text-left">
+      <span class="text-[9px] text-[#fbd38d] font-black uppercase tracking-widest leading-none">Total Envoys</span>
+      <span class="text-xs text-amber-250 font-bold tracking-tight mt-0.5">누적 기사 서찰:</span>
+    </div>
+    <span id="grand-total-badge" class="serif-title text-xl font-black text-amber-300">0</span>
+  </div>
+
+  <!-- Persistent Notification Banner (Fixed Bottom Center) -->
+  <div id="notify-banner" class="fixed bottom-5 left-[265px] right-[180px] rounded-[20px] bg-gradient-to-r from-[#78350f] via-amber-950 to-[#78350f] border-2 border-amber-500/60 shadow-2xl p-3.5 px-6 z-30 opacity-0 pointer-events-none transition-all duration-300 transform translate-y-3 flex items-center gap-4">
+    <div class="text-3xl animate-bounce">⚔️</div>
+    <div class="text-xs flex-1 truncate">
+      <span class="serif-title font-black text-amber-300" id="notify-title">왕가 전령 도정</span>
+      <span class="text-amber-50 ml-2 font-medium" id="notify-body">편지가 새로 도착했습니다!</span>
+    </div>
+  </div>
+
+  <!-- Firebase Integration script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, query, orderByChild, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // Standard static configuration - exact match with existing credentials
+    const firebaseConfig = {
+      apiKey: "AIzaSyBY1feijTxwFceCJ-_WcRB474mou_P2VEo",
+      authDomain: "letter-1083f.firebaseapp.com",
+      databaseURL: "https://letter-1083f-default-rtdb.firebaseio.com",
+      projectId: "letter-1083f",
+      storageBucket: "letter-1083f.firebasestorage.app",
+      messagingSenderId: "348995614132",
+      appId: "1:348995614132:web:c0285f163b5cc9841e2ee1",
+      measurementId: "G-T5KB4QBLJ1"
+    };
+
+    const useFirebase = !firebaseConfig.apiKey.includes("REPLACE-WITH-YOUR-KEY") && !firebaseConfig.projectId.includes("your-project");
+
+    let db = null;
+    if (useFirebase) {
+      try {
+        const app = initializeApp(firebaseConfig);
+        db = getDatabase(app);
+      } catch (err) {
+        console.warn("Could not load Firebase, falling back to LocalStorage:", err);
+      }
+    }
+
+    let computedQRUrl = "";
+
+    function setupQR() {
+      try {
+        const loc = window.location;
+        let pathname = loc.pathname;
+        if (pathname.endsWith("index.html")) {
+          pathname = pathname.substring(0, pathname.length - 10);
+        }
+        if (!pathname.endsWith("/")) {
+          pathname += "/";
+        }
+        computedQRUrl = `${loc.protocol}//${loc.host}${pathname}letter.html`;
+      } catch (err) {
+        computedQRUrl = window.location.origin + "/letter.html";
+      }
+
+      console.log("Constructed Letter URL for QR:", computedQRUrl);
+      
+      new QRCode(document.getElementById("qr-container"), {
+        text: computedQRUrl,
+        width: 120,
+        height: 120,
+        colorDark: "#78350f",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    window.copyQRUrl = function() {
+      if (!computedQRUrl) return;
+      navigator.clipboard.writeText(computedQRUrl).then(() => {
+        const displayBtn = document.getElementById("qr-url-display");
+        const originalHtml = displayBtn.innerHTML;
+        displayBtn.innerHTML = "<span>✅ 복사 완료!</span>";
+        displayBtn.classList.remove("bg-amber-800/15", "text-amber-900");
+        displayBtn.classList.add("bg-teal-700", "text-teal-50");
+        setTimeout(() => {
+          displayBtn.innerHTML = originalHtml;
+          displayBtn.classList.remove("bg-teal-700", "text-teal-50");
+          displayBtn.classList.add("bg-amber-800/15", "text-amber-900");
+        }, 2000);
+      }).catch(err => {
+        console.warn("Clipboard copy fallback:", err);
+        alert(`생성된 주소: ${computedQRUrl}`);
+      });
+    }
+
+    // Canvas Sea Waves & Sparks Renderer
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    
+    let sparkGrid = [];
+    let riseSparkles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initCanvasElements();
+    }
+
+    function initCanvasElements() {
+      sparkGrid = [];
+      riseSparkles = [];
+      
+      // Sea sun glares
+      const glitterCount = 70;
+      for (let i = 0; i < glitterCount; i++) {
+        sparkGrid.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: 1.0 + Math.random() * 2.0,
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.008 + Math.random() * 0.012
+        });
+      }
+
+      // Rising sparkles representing "knights rises" out of deep water
+      const risesCount = 18;
+      for (let i = 0; i < risesCount; i++) {
+        riseSparkles.push({
+          x: Math.random() * canvas.width,
+          y: canvas.height + Math.random() * 200,
+          size: 3 + Math.random() * 5,
+          yspeed: 0.5 + Math.random() * 1.2,
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.015 + Math.random() * 0.02
+        });
+      }
+    }
+
+    let waveTime = 0;
+    function drawCitadelBackground() {
+      waveTime += 0.008;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Maldives lagoon gradient
+      let bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      bgGrad.addColorStop(0, "#075985");    // Deep skyline
+      bgGrad.addColorStop(0.35, "#0d9488"); // Beautiful Maldives emerald lagoon
+      bgGrad.addColorStop(0.75, "#14b8a6"); // Emerald shoreline ripples
+      bgGrad.addColorStop(1, "#f59e0b");    // Golden sandy shores at bottom
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw glitters
+      sparkGrid.forEach(s => {
+        s.phase += s.speed;
+        const opacity = (Math.sin(s.phase) + 1) / 2 * 0.5 + 0.1;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(251, 191, 36, ${opacity})`;
+        ctx.fill();
+      });
+
+      // Animated Maldives Sea Waves (Back layer)
+      ctx.fillStyle = "rgba(15, 118, 110, 0.3)";
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height * 0.7);
+      for (let x = 0; x <= canvas.width; x += 15) {
+        let y = canvas.height * 0.76 + Math.sin(x * 0.0035 + waveTime) * 16 + Math.cos(x * 0.0015 + waveTime * 1.2) * 8;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(canvas.width, canvas.height);
+      ctx.lineTo(0, canvas.height);
+      ctx.closePath();
+      ctx.fill();
+
+      // Front Wave layer wash
+      ctx.fillStyle = "rgba(45, 212, 191, 0.2)";
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height * 0.78);
+      for (let x = 0; x <= canvas.width; x += 15) {
+        let y = canvas.height * 0.83 + Math.sin(x * 0.005 - waveTime * 0.8) * 12 + Math.cos(x * 0.002 - waveTime) * 12;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(canvas.width, canvas.height);
+      ctx.lineTo(0, canvas.height);
+      ctx.closePath();
+      ctx.fill();
+
+      // Rising Sparks ("knights rises")
+      riseSparkles.forEach(bs => {
+        bs.y -= bs.yspeed;
+        if (bs.y < -50) {
+          bs.y = canvas.height + 30;
+          bs.x = Math.random() * canvas.width;
+        }
+        bs.phase += bs.speed;
+        const scaleMul = (Math.sin(bs.phase) + 1.2) / 2;
+        ctx.save();
+        ctx.translate(bs.x, bs.y);
+        
+        ctx.beginPath();
+        ctx.arc(0, 0, bs.size * scaleMul, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(254, 243, 199, ${0.45 * scaleMul})`;
+        ctx.fill();
+        
+        ctx.restore();
+      });
+
+      requestAnimationFrame(drawCitadelBackground);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+
+    // Dynamic wing oscillations
+    let wingAngle = 0;
+    let wingDir = 1;
+    let envAnimFrameId = null;
+
+    function wingFlutterLoop() {
+      wingAngle += wingDir * 5;
+      if (wingAngle > 45) {
+        wingDir = -1;
+      } else if (wingAngle < -15) {
+        wingDir = 1;
+      }
+
+      const wl = document.getElementById('wl');
+      const wr = document.getElementById('wr');
+      if (wl && wr) {
+        wl.setAttribute('transform', `rotate(${wingAngle}, 25, 45)`);
+        wr.setAttribute('transform', `rotate(${-wingAngle}, 95, 45)`);
+      }
+
+      envAnimFrameId = requestAnimationFrame(wingFlutterLoop);
+    }
+
+    // Flying shield herald dispatcher
+    function flyEnvelope(name, onLandCallback) {
+      if (envAnimFrameId) cancelAnimationFrame(envAnimFrameId);
+      
+      const carrier = document.getElementById('envelope-carrier');
+      carrier.style.transition = 'none';
+      carrier.style.left = '-130px';
+      carrier.style.top = '45%';
+      carrier.style.opacity = '0';
+      carrier.style.transform = 'scale(0.8) rotate(-15deg)';
+
+      wingAngle = 0;
+      wingDir = 1;
+      wingFlutterLoop();
+
+      setTimeout(() => {
+        // Grand swoop
+        carrier.style.transition = 'all 0.9s cubic-bezier(.175,.885,.32,1.275)';
+        carrier.style.opacity = '1';
+        carrier.style.left = '25%';
+        carrier.style.top = '25%';
+        carrier.style.transform = 'scale(1.15) rotate(6deg)';
+      }, 80);
+
+      setTimeout(() => {
+        // Drift glide
+        carrier.style.left = '42%';
+        carrier.style.top = '36%';
+        carrier.style.transform = 'scale(1.0) rotate(-4deg)';
+      }, 1000);
+
+      setTimeout(() => {
+        // Sinks out of view gracefully
+        carrier.style.left = '51%';
+        carrier.style.top = '42%';
+        carrier.style.opacity = '0';
+        carrier.style.transform = 'scale(0.7) rotate(-8deg)';
+      }, 1700);
+
+      setTimeout(() => {
+        if (envAnimFrameId) {
+          cancelAnimationFrame(envAnimFrameId);
+          envAnimFrameId = null;
+        }
+        onLandCallback();
+      }, 2350);
+    }
+
+    // Active Card Management
+    let cardIndex = 0;
+    const maxActiveCards = 14;
+    const cardsList = [];
+
+    function getRandomCoords() {
+      // safe margins from side-content & headers
+      const minX = 22;
+      const maxX = 74;
+      const minY = 12;
+      const maxY = 66;
+      
+      const left = minX + Math.random() * (maxX - minX);
+      const top = minY + Math.random() * (maxY - minY);
+      return { x: left, y: top };
+    }
+
+    // Elegant ancient royal themed color presets for cards
+    const cardThemes = [
+      { bg: "linear-gradient(to bottom right, #fefaf2, #f3e2ba)", border: "#b45309", title: "#78350f", text: "#451a03", tag: "border-amber-600/30 text-amber-900 bg-amber-100/60" },
+      { bg: "linear-gradient(to bottom right, #fcfcfc, #e2e8f0)", border: "#475569", title: "#1e293b", text: "#334155", tag: "border-slate-400/30 text-slate-900 bg-slate-100" },
+      { bg: "linear-gradient(to bottom right, #f7f3eb, #e7cfa5)", border: "#92400e", title: "#78350f", text: "#451a03", tag: "border-amber-700/40 text-amber-950 bg-amber-50" },
+      { bg: "linear-gradient(to bottom right, #f0fdfa, #ccfbf1)", border: "#0d9488", title: "#115e59", text: "#134e4a", tag: "border-teal-600/30 text-teal-900 bg-teal-50" },
+      { bg: "linear-gradient(to bottom right, #fffbeb, #fef3c7)", border: "#d97706", title: "#92400e", text: "#78350f", tag: "border-yellow-600/30 text-yellow-900 bg-yellow-50" }
+    ];
+
+    function addCard(item, isInitial = false) {
+      const stage = document.getElementById('card-stage');
+      
+      if (document.querySelector('.pointer-events-none.opacity-30')) {
+        document.querySelector('.pointer-events-none.opacity-30').remove();
+      }
+
+      if (cardsList.length >= maxActiveCards) {
+        const oldest = cardsList.shift();
+        if (oldest && oldest.element && oldest.element.parentNode) {
+          oldest.element.remove();
+        }
+      }
+
+      const activeTheme = cardThemes[cardIndex % cardThemes.length];
+      cardIndex++;
+
+      // Create beautiful medieval wax-seal card frame
+      const card = document.createElement('div');
+      card.className = 'letter-card absolute w-[190px] p-4 rounded-[18px] border-2 shadow-2xl flex flex-col space-y-2 z-10 transition-all duration-[500ms]';
+      card.style.background = activeTheme.bg;
+      card.style.borderColor = activeTheme.border;
+      card.style.boxShadow = '0 15px 30px -5px rgba(69, 26, 3, 0.2), inset 0 0 16px rgba(217, 119, 6, 0.05)';
+      
+      const pos = getRandomCoords();
+      card.style.left = `${pos.x}%`;
+      card.style.top = `${pos.y}%`;
+
+      const aniDelay = Math.random() * -3.0;
+      card.style.animation = `cardIn 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards, floatUpDown 4.2s infinite ease-in-out ${aniDelay}s`;
+
+      card.innerHTML = `
+        <div class="flex items-center justify-between border-b pb-1.5 border-amber-800/15">
+          <div class="flex flex-col truncate pr-1">
+            <span class="text-[9px] font-black uppercase tracking-wider text-amber-800/60 leading-none">Knight Envoy</span>
+            <span class="text-xs font-black tracking-tight truncate mt-0.5" style="color: ${activeTheme.title}">${item.name}</span>
+          </div>
+          <div class="text-xl flex-shrink-0 select-none p-1 bg-amber-50 rounded-full border border-amber-600/20 shadow-md transform scale-95">${item.emoji || '🏰'}</div>
+        </div>
+        <p class="text-[11px] font-medium leading-relaxed select-none break-all overflow-y-auto max-h-[75px] scrollbar-thin" style="color: ${activeTheme.text}; font-family: 'Noto Sans KR', sans-serif;">
+          ${item.message}
+        </p>
+        <div class="flex justify-end pt-0.5 border-t border-amber-800/5">
+          <span class="text-[8px] font-bold text-amber-800/60 uppercase select-none tracking-widest">🛡️ Approved seal</span>
+        </div>
+      `;
+
+      stage.appendChild(card);
+      
+      const record = {
+        key: item.key,
+        element: card,
+        timeoutId: null
+      };
+      
+      cardsList.push(record);
+
+      // Decays exactly after 10000ms (10 seconds)
+      record.timeoutId = setTimeout(() => {
+        card.classList.add('fade-out-transition');
+        card.addEventListener('transitionend', () => {
+          const index = cardsList.indexOf(record);
+          if (index !== -1) {
+            cardsList.splice(index, 1);
+          }
+          if (card.parentNode) {
+            card.remove();
+          }
+        });
+      }, 10000);
+    }
+
+    // Sidebar rendering
+    function renderSidebar(entries) {
+      const container = document.getElementById('side-presents');
+      container.innerHTML = '';
+
+      if (entries.length === 0) {
+        container.innerHTML = `<div class="text-center text-xs text-teal-200/55 py-12">새로운 편지를 기다리는 중...</div>`;
+        return;
+      }
+
+      const latest8 = [...entries].reverse().slice(0, 8);
+
+      latest8.forEach((item, idx) => {
+        const itemEl = document.createElement('div');
+        // Bronze border with dark pine wood backing
+        itemEl.className = 'panel-item bg-[#0b3c39]/70 border-l-4 border-amber-600 p-3 rounded-r-xl flex flex-col space-y-1 transition-all hover:bg-teal-900/60 hover:translate-x-1 duration-300 shadow-md';
+        itemEl.style.animationDelay = `${idx * 0.06}s`;
+
+        itemEl.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-black text-amber-200/90 truncate pr-2">${item.name}</span>
+            <span class="text-md">${item.emoji || '🏰'}</span>
+          </div>
+          <p class="text-[10px] text-teal-100 font-normal line-clamp-2 leading-relaxed" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all;">
+            ${item.message}
+          </p>
+        `;
+        container.appendChild(itemEl);
+      });
+    }
+
+    let bannerTimer = null;
+    function showNotify(name) {
+      if (bannerTimer) clearTimeout(bannerTimer);
+
+      const banner = document.getElementById('notify-banner');
+      const body = document.getElementById('notify-body');
+      
+      body.innerHTML = `용맹한 <b class="text-amber-300">[${name}]</b> 기사령이 서찰을 도찰해 올렸습니다!`;
+      
+      banner.style.opacity = '1';
+      banner.style.pointerEvents = 'auto';
+      banner.style.transform = 'translateY(0)';
+
+      bannerTimer = setTimeout(() => {
+        banner.style.opacity = '0';
+        banner.style.pointerEvents = 'none';
+        banner.style.transform = 'translateY(12px)';
+      }, 3000);
+    }
+
+    const prevKeys = new Set();
+    let isInitialLoad = true;
+
+    function getLocalLetters() {
+      try {
+        const val = localStorage.getItem('citadel_letters');
+        return val ? JSON.parse(val) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function processLettersSnapshot(data) {
+      const items = [];
+      for (const [key, val] of Object.entries(data)) {
+        items.push({
+          key,
+          ...val
+        });
+      }
+      
+      // Sort chronologically
+      items.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+
+      // Display only active, visible letters
+      const visibleItems = items.filter(i => i.visible !== false);
+
+      document.getElementById('grand-total-badge').textContent = visibleItems.length;
+
+      renderSidebar(visibleItems);
+
+      if (prevKeys.size === 0) {
+        // initial load 3 items straight
+        const initialCards = visibleItems.slice(-3);
+        initialCards.forEach(item => {
+          addCard(item, true);
+        });
+        cardIndex = visibleItems.length;
+      } else {
+        // dynamic additions triggers envelope & notify banners
+        visibleItems.forEach(item => {
+          if (!prevKeys.has(item.key)) {
+            flyEnvelope(item.name, () => {
+              addCard(item, false);
+              showNotify(item.name);
+            });
+          }
+        });
+      }
+
+      prevKeys.clear();
+      visibleItems.forEach(item => prevKeys.add(item.key));
+      isInitialLoad = false;
+    }
+
+    function initFirebaseListener() {
+      if (useFirebase && db) {
+        const dbRef = ref(db, 'letters');
+        onValue(dbRef, (snapshot) => {
+          processLettersSnapshot(snapshot.val() || {});
+        });
+      } else {
+        // LocalStorage fallback
+        processLettersSnapshot(getLocalLetters());
+        window.addEventListener('storage', () => {
+          processLettersSnapshot(getLocalLetters());
+        });
+        // Periodically poll localstorage in case of single tab emulation
+        setInterval(() => {
+          processLettersSnapshot(getLocalLetters());
+        }, 1200);
+      }
+    }
+
+    window.onload = () => {
+      setupQR();
+      resizeCanvas();
+      drawCitadelBackground();
+      initFirebaseListener();
+    };
+  </script>
+</body>
+</html>

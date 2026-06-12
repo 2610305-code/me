@@ -1,0 +1,6 @@
+{
+  "name": "Teacher Letter Board",
+  "description": "선생님과 학생들을 이어주는 아름다운 몰디브 고대 성채 및 기사단 테마의 편지 전령선 전광판",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>기사단의 해변 전령선 ✉️</title>
+  <!-- Google Fonts & Tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: linear-gradient(135deg, #022c22, #0d9488, #0ea5e9, #f59e0b);
+      background-size: 400% 400%;
+      animation: oceanGlow 15s ease infinite;
+    }
+    
+    .serif-title {
+      font-family: 'Cinzel', serif;
+    }
+
+    @keyframes oceanGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Wave effect underlay */
+    @keyframes waveSlow {
+      0%, 100% { transform: translateY(0) scaleY(1); }
+      50% { transform: translateY(8px) scaleY(1.04); }
+    }
+    .wave-underlay {
+      animation: waveSlow 8s ease-in-out infinite;
+    }
+
+    /* Tropical fireflies / castle dust */
+    @keyframes floatingDust {
+      0%, 100% { opacity: 0.1; transform: translateY(0) scale(0.9); }
+      50% { opacity: 0.8; transform: translateY(-15px) scale(1.1); }
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 0; }
+      75% { transform: scale(1.15); opacity: 0.9; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .pop-animation {
+      animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    /* Medieval parchment texture style */
+    .parchment-bg {
+      background: #fdfaf2;
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(243, 222, 186, 0.2) 0%, transparent 80%),
+        radial-gradient(circle at 90% 90%, rgba(197, 137, 64, 0.15) 0%, transparent 80%);
+      box-shadow: inset 0 0 40px rgba(139, 94, 26, 0.15);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden text-slate-800 select-none">
+
+  <!-- Floating particles & tropical sea spray container -->
+  <div id="stars-container" class="absolute inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+  <!-- Central Card designed as an Antique Royal Scroll Frame -->
+  <div id="app-card" class="z-10 w-full max-w-[420px] parchment-bg border-4 border-[#b45309] rounded-[24px] p-7 shadow-2xl relative transition-all duration-300">
+    
+    <!-- Stone Battlements Style Castle Accent Overlay (Decorative corners) -->
+    <div class="absolute -top-3 left-6 right-6 flex justify-between pointer-events-none select-none">
+      <div class="h-4 w-7 bg-[#b45309] rounded-b-md shadow-md"></div>
+      <div class="h-4 w-7 bg-[#b45309] rounded-b-md shadow-md"></div>
+      <div class="h-4 w-7 bg-[#b45309] rounded-b-md shadow-md"></div>
+      <div class="h-4 w-7 bg-[#b45309] rounded-b-md shadow-md"></div>
+    </div>
+
+    <!-- Composition Mode Form -->
+    <form id="letter-form" onsubmit="submitLetter(event)" class="space-y-5">
+      <!-- Title Section with Medieval Shield/Palm Frond Aesthetic -->
+      <div class="text-center space-y-1">
+        <div class="flex items-center justify-center gap-2 text-2xl mb-1 text-[#b45309]">
+          <span>⚔️</span>
+          <span class="text-3xl">🏰</span>
+          <span>🌴</span>
+        </div>
+        <h1 class="serif-title text-2xl font-black tracking-wider text-[#78350f]">
+          말디브 성채 기사단
+        </h1>
+        <p class="text-xs font-bold text-[#b45309] tracking-widest uppercase">
+          Royal Messenger of the Sands
+        </p>
+        <p class="text-[11px] text-amber-900/70 font-medium px-4">
+          에메랄드빛 몰디브 바다에 솟아오른 고대 성채의<br/>바람을 갈라 기사의 마음을 전령전으로 전하세요.
+        </p>
+      </div>
+
+      <!-- Separation line with crest -->
+      <div class="flex items-center justify-center my-2 select-none">
+        <div class="h-[1px] bg-amber-800/20 flex-1"></div>
+        <div class="mx-3 text-[11px] text-amber-800 font-bold serif-title">🛡️ SACRED CREST 🛡️</div>
+        <div class="h-[1px] bg-amber-800/20 flex-1"></div>
+      </div>
+
+      <!-- Sender Name (Optional) -->
+      <div class="space-y-1">
+        <label for="sender-name" class="text-xs font-bold text-[#854d0e] flex items-center gap-1">
+          <span>🐎</span> 보내는 기사의 명예 (선택)
+        </label>
+        <input 
+          type="text" 
+          id="sender-name" 
+          placeholder="이름이나 칭호를 새기세요 (기본: 익명 기사)" 
+          maxlength="12"
+          class="w-full bg-[#fcf9f2] border-2 border-amber-800/25 rounded-xl px-4 py-2.5 text-sm text-amber-950 placeholder-amber-700/40 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:border-transparent transition-all font-medium"
+        />
+      </div>
+
+      <!-- Letter Content (Required) -->
+      <div class="space-y-1">
+        <label for="letter-content" class="text-xs font-bold text-[#854d0e] flex items-center gap-1">
+          <span>📜</span> 전령에 담을 마음 (필수)
+        </label>
+        <textarea 
+          id="letter-content" 
+          required
+          minlength="2"
+          placeholder="성채 너머의 소중한 분께 보낼 감사의 문장, 따뜻한 마음, 혹은 진심어린 가르침에 대한 보답을 양피지 편지에 아로새기세요. ✏️"
+          class="w-full min-h-[110px] bg-[#fcf9f2] border-2 border-amber-800/25 rounded-xl px-4 py-2.5 text-sm text-amber-950 placeholder-amber-700/40 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:border-transparent transition-all resize-none leading-relaxed font-normal"
+          oninput="validateForm()"
+        ></textarea>
+      </div>
+
+      <!-- Aesthetic Stamped Icon Selector -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-bold text-[#854d0e] flex items-center gap-1">
+          <span>🔱</span> 봉인 인장 (왕가의 문양 선택)
+        </label>
+        <div id="emoji-grid" class="grid grid-cols-4 gap-2">
+          <!-- Handled programmatically -->
+        </div>
+      </div>
+
+      <!-- Submit Button (styled like a gold seal button) -->
+      <button 
+        type="submit" 
+        id="submit-btn" 
+        disabled
+        class="w-full py-3.5 px-4 rounded-xl text-sm font-extrabold tracking-widest text-[#fef3c7] transition-all duration-300 transform bg-gradient-to-r from-[#78350f] via-[#d97706] to-[#78350f] hover:from-[#d97706] hover:to-[#b45309] shadow-lg shadow-amber-950/40 hover:-translate-y-[1.5px] hover:shadow-xl hover:shadow-amber-900/30 disabled:from-slate-300 disabled:via-slate-350 disabled:to-slate-400 disabled:text-slate-500 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none font-bold"
+      >
+        🔱 성채 전령선 띄우기
+      </button>
+
+      <!-- Go back to main board -->
+      <div class="text-center pt-2">
+        <a href="index.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-800/80 hover:text-amber-950 transition-all underline decoration-dashed select-none">
+          🏰 전광판(메인 화면)으로 가기
+        </a>
+      </div>
+    </form>
+
+    <!-- Success Mode Panel (Hidden initially) -->
+    <div id="success-panel" class="hidden text-center py-6 space-y-4">
+      <div class="flex justify-center">
+        <!-- Stamp circle -->
+        <div id="success-emoji-badge" class="text-6xl p-4 bg-amber-500/10 border-4 border-dashed border-amber-600 rounded-full w-28 h-28 flex items-center justify-center shadow-2xl relative">
+          🏰
+        </div>
+      </div>
+      <div class="space-y-2 px-1">
+        <h2 class="serif-title text-2xl font-black text-[#78350f]">
+          왕가 인장 봉인 완료!
+        </h2>
+        <p class="text-xs font-bold text-[#b45309] tracking-widest uppercase mb-1">LETTER DISPATCHED</p>
+        <p class="text-xs text-amber-900 font-semibold leading-relaxed">
+          귀하의 명예가 담긴 서찰이 황금빛 몰디브 바다를 가로질러,<br/>선생님의 고대 석조 전광판 위로 용맹하게 날아갔습니다!
+        </p>
+      </div>
+      
+      <div class="space-y-2.5 pt-2">
+        <button 
+          type="button" 
+          onclick="resetComposer()"
+          class="w-full py-3.5 px-4 rounded-xl text-xs font-bold tracking-widest bg-amber-800/10 border-2 border-amber-800 text-amber-800 hover:bg-amber-800 hover:text-amber-50 active:scale-95 transition-all text-center uppercase"
+        >
+          📜 새 서찰 봉인하기
+        </button>
+        
+        <a 
+          href="index.html"
+          class="block w-full py-3 px-4 rounded-xl text-xs font-extrabold tracking-widest text-[#fdf6e2] transition-all bg-gradient-to-r from-teal-800 to-[#0d9488] hover:from-teal-700 hover:to-[#0ea5e9] shadow-md text-center uppercase"
+        >
+          🏰 전광판으로 돌아가기
+        </a>
+      </div>
+    </div>
+
+    <!-- Decorative bottom scrolls -->
+    <div class="absolute -bottom-1.5 left-10 right-10 h-2 bg-[#78350f] rounded-full"></div>
+  </div>
+
+  <!-- Firebase Setup & App Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // Static credentials - matching exact system configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBY1feijTxwFceCJ-_WcRB474mou_P2VEo",
+      authDomain: "letter-1083f.firebaseapp.com",
+      databaseURL: "https://letter-1083f-default-rtdb.firebaseio.com",
+      projectId: "letter-1083f",
+      storageBucket: "letter-1083f.firebasestorage.app",
+      messagingSenderId: "348995614132",
+      appId: "1:348995614132:web:c0285f163b5cc9841e2ee1",
+      measurementId: "G-T5KB4QBLJ1"
+    };
+
+    const useFirebase = !firebaseConfig.apiKey.includes("REPLACE-WITH-YOUR-KEY") && !firebaseConfig.projectId.includes("your-project");
+
+    let db = null;
+    if (useFirebase) {
+      try {
+        const app = initializeApp(firebaseConfig);
+        db = getDatabase(app);
+      } catch (err) {
+        console.warn("Could not load Firebase, falling back to LocalStorage:", err);
+      }
+    }
+
+    function getLocalLetters() {
+      try {
+        const val = localStorage.getItem('citadel_letters');
+        return val ? JSON.parse(val) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function setLocalLetters(data) {
+      localStorage.setItem('citadel_letters', JSON.stringify(data));
+      window.dispatchEvent(new Event('storage'));
+    }
+
+    // Maldives sea spray & sparkles generator replacing standard starfield
+    function initStarfield() {
+      const container = document.getElementById('stars-container');
+      const particleCount = 60;
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'absolute rounded-full';
+        
+        // Tropical colors (sea foam white, glittering gold, teal)
+        const colors = ['rgba(255, 255, 255, 0.4)', 'rgba(251, 191, 36, 0.5)', 'rgba(45, 212, 191, 0.3)'];
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Random dimensions
+        const size = Math.random() * 5 + 3; // 3px to 8px
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.boxShadow = '0 0 10px rgba(251, 191, 36, 0.2)';
+        
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.left = `${Math.random() * 100}%`;
+        
+        const duration = 3.0 + Math.random() * 5.0;
+        particle.style.animation = `floatingDust ${duration}s infinite ease-in-out`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        
+        container.appendChild(particle);
+      }
+    }
+
+    // Historical Theme Emojis
+    const emojis = ["🏰", "🛡️", "⚔️", "👑", "🐎", "⚓", "🌴", "🌊"];
+    let selectedEmoji = emojis[0];
+
+    function initEmojiSelector() {
+      const grid = document.getElementById('emoji-grid');
+      grid.innerHTML = '';
+      
+      emojis.forEach((emoji, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.id = `emoji-${index}`;
+        btn.className = 'py-2 rounded-xl text-2xl transition-all duration-300 border flex items-center justify-center hover:scale-105 active:scale-95';
+        btn.textContent = emoji;
+        
+        if (emoji === selectedEmoji) {
+          applySelectedStyle(btn);
+        } else {
+          applyNormalStyle(btn);
+        }
+        
+        btn.onclick = () => {
+          selectedEmoji = emoji;
+          initEmojiSelector();
+        };
+        
+        grid.appendChild(btn);
+      });
+    }
+
+    function applySelectedStyle(el) {
+      el.className = 'py-2 rounded-xl text-3xl transition-all duration-300 border-2 border-amber-700 bg-amber-100 shadow-[0_0_12px_rgba(217,119,6,0.35)] scale-[1.08] relative out-glow';
+    }
+
+    function applyNormalStyle(el) {
+      el.className = 'py-2 rounded-xl text-2xl transition-all duration-300 border-amber-850/15 bg-white/40 hover:bg-amber-50 text-amber-950/70 border';
+    }
+
+    window.validateForm = function() {
+      const content = document.getElementById('letter-content').value.trim();
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = content.length < 2;
+    };
+
+    window.submitLetter = async function(event) {
+      event.preventDefault();
+      
+      const contentInput = document.getElementById('letter-content');
+      const nameInput = document.getElementById('sender-name');
+      const submitBtn = document.getElementById('submit-btn');
+      
+      const message = contentInput.value.trim();
+      if (!message) return;
+      
+      const rawName = nameInput.value.trim();
+      const name = rawName === '' ? '익명의 기사' : rawName;
+      
+      submitBtn.disabled = true;
+      submitBtn.textContent = '성채 전령 편지 서명 중...';
+      
+      try {
+        if (useFirebase && db) {
+          const dbRef = ref(db, 'letters');
+          await push(dbRef, {
+            name: name,
+            message: message,
+            emoji: selectedEmoji,
+            timestamp: serverTimestamp(),
+            visible: true
+          });
+        } else {
+          // LocalStorage save
+          const localData = getLocalLetters();
+          const newKey = 'local_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+          localData[newKey] = {
+            name: name,
+            message: message,
+            emoji: selectedEmoji,
+            timestamp: Date.now(),
+            visible: true
+          };
+          setLocalLetters(localData);
+          // Small mock delay to simulate server submittal
+          await new Promise(resolve => setTimeout(resolve, 600));
+        }
+        
+        document.getElementById('letter-form').classList.add('hidden');
+        const successPanel = document.getElementById('success-panel');
+        successPanel.classList.remove('hidden');
+        
+        const successBadge = document.getElementById('success-emoji-badge');
+        successBadge.textContent = selectedEmoji;
+        successBadge.classList.add('pop-animation');
+        
+      } catch (error) {
+        console.error("Firebase submit error:", error);
+        alert("성채 전령 봉인에 실패했습니다. 파도가 세차니 다시 띄워보세요.");
+        
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🔱 성채 전령선 띄우기';
+      }
+    };
+
+    window.resetComposer = function() {
+      document.getElementById('letter-content').value = '';
+      document.getElementById('sender-name').value = '';
+      selectedEmoji = emojis[0];
+      
+      validateForm();
+      initEmojiSelector();
+      
+      document.getElementById('success-panel').classList.add('hidden');
+      document.getElementById('success-emoji-badge').classList.remove('pop-animation');
+      document.getElementById('letter-form').classList.remove('hidden');
+    };
+
+    window.onload = () => {
+      initStarfield();
+      initEmojiSelector();
+    };
+  </script>
+</body>
+</html>

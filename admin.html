@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>성채 백부장 관리 연단 📋</title>
+  <!-- Google Fonts & Tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: linear-gradient(135deg, #075985, #0f766e, #134e4a, #78350f);
+      background-size: 300% 300%;
+      animation: ambientCitadel 20s ease infinite;
+    }
+    .serif-title {
+      font-family: 'Cinzel', serif;
+    }
+    @keyframes ambientCitadel {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Parchment textures for lists and panels */
+    .parchment-sheet {
+      background-color: #fdfaf2;
+      background-image: radial-gradient(circle at 10% 10%, rgba(243, 222, 186, 0.25) 0%, transparent 80%);
+      box-shadow: inset 0 0 30px rgba(139, 94, 26, 0.12), 0 10px 25px -5px rgba(0,0,0,0.4);
+    }
+
+    /* Falling sunbeam sparks in admin background */
+    @keyframes floatingSparks {
+      0%, 100% { opacity: 0.15; transform: translateY(0) rotate(0deg); }
+      50% { opacity: 0.7; transform: translateY(-30px) rotate(15deg); }
+    }
+  </style>
+</head>
+<body class="min-h-screen text-amber-950 select-none p-4 flex flex-col items-center justify-start py-10 relative overflow-x-hidden">
+
+  <!-- Floating background particles -->
+  <div id="stars-decor" class="absolute inset-0 pointer-events-none z-0"></div>
+
+  <!-- Gateway Login Screen Panel (Styled like an antique iron-reinforced fortress gate) -->
+  <div id="auth-gate" class="z-10 w-full max-w-[390px] bg-[#fdfaf2] border-4 border-[#b45309] rounded-[24px] p-7 shadow-2xl space-y-6 my-auto relative">
+    <!-- Castle Accent battlements -->
+    <div class="absolute -top-3 left-6 right-6 flex justify-between select-none pointer-events-none">
+      <div class="h-3.5 w-6 bg-[#b45309] rounded-b-md shadow-md"></div>
+      <div class="h-3.5 w-6 bg-[#b45309] rounded-b-md shadow-md"></div>
+      <div class="h-3.5 w-6 bg-[#b45309] rounded-b-md shadow-md"></div>
+    </div>
+
+    <div class="text-center space-y-2">
+      <div class="text-4xl">👑</div>
+      <h1 class="serif-title text-xl font-black text-[#78350f] tracking-wide">
+        성채 무도 전령 관리관
+      </h1>
+      <p class="text-[10px] text-amber-800 font-bold uppercase tracking-widest">Citadel Commander Login</p>
+      <p class="text-xs text-amber-900/70 font-semibold px-2">
+        기사령 서찰들을 정비하기 위해 보안 인장을 검증합니다.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      <div class="space-y-1">
+        <label for="password-input" class="text-xs font-bold text-amber-800">서명 마스터 인장 번호 (비밀번호)</label>
+        <input 
+          type="password" 
+          id="password-input" 
+          placeholder="••••" 
+          onkeydown="handleLoginKey(event)"
+          class="w-full bg-amber-50/50 border-2 border-amber-800/35 rounded-xl px-3.5 py-2.5 text-center text-lg tracking-widest text-[#78350f] placeholder-amber-700/30 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:border-transparent transition-all font-bold"
+        />
+      </div>
+
+      <!-- Err Feedback Badge -->
+      <p id="error-msg" class="text-center text-xs font-bold text-red-600 select-none hidden">
+        인장 번호가 올바르지 않습니다 🛡️
+      </p>
+
+      <button 
+        type="button" 
+        onclick="attemptLogin()"
+        class="w-full py-3.5 px-4 rounded-xl text-sm font-black tracking-widest text-[#fdf6e2] transition-all bg-gradient-to-r from-[#78350f] to-[#b45309] hover:from-[#b45309] hover:to-[#78350f] shadow-lg shadow-amber-950/30 active:scale-95 uppercase"
+      >
+        🔱 문 관리소 개방
+      </button>
+
+      <!-- Go back link -->
+      <div class="text-center pt-2">
+        <a href="index.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-800/80 hover:text-amber-950 transition-all underline decoration-dashed select-none">
+          🏰 전광판(메인 화면)으로 가기
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Management Panel Dashboard (Hidden initially) -->
+  <div id="admin-board" class="hidden z-10 w-full max-w-[720px] space-y-6">
+    
+    <!-- Top Dashboard Header Section - Structured as a Teak Wood Master Tablet -->
+    <header class="bg-[#fdfaf2] border-4 border-[#b45309] rounded-2.5xl p-5 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-5 relative">
+      <div class="space-y-1">
+        <div class="flex items-center gap-1.5">
+          <span class="text-2xl">📋</span>
+          <h2 class="serif-title text-lg font-black text-[#78350f] tracking-wide">
+            성채 장군 전령 검열소
+          </h2>
+        </div>
+        <p class="text-[10px] text-amber-800 font-bold uppercase tracking-widest">CITADEL MILITARY CENSOR</p>
+        <p class="text-xs text-amber-950/70 font-semibold leading-relaxed">
+          학생 전들의 무도 서찰을 확인하여 게시 여부를 실시간 검수 통제합니다.
+        </p>
+      </div>
+
+      <!-- Live Counters statistics blocks - Styled as Roman Bronze Buttons -->
+      <div class="grid grid-cols-3 gap-2.5 max-w-[340px] w-full">
+        <div class="bg-[#faf3e2] border-2 border-amber-800/25 rounded-2xl p-2.5 text-center shadow-md">
+          <div class="text-[9px] font-bold text-amber-800/80 uppercase">Total</div>
+          <div id="stat-total" class="serif-title text-base font-black text-amber-950 mt-0.5">0</div>
+        </div>
+        <div class="bg-[#ecfdf5] border-2 border-teal-600/25 rounded-2xl p-2.5 text-center shadow-md">
+          <div class="text-[9px] font-bold text-teal-800 uppercase">Active</div>
+          <div id="stat-visible" class="serif-title text-base font-black text-teal-950 mt-0.5">0</div>
+        </div>
+        <div class="bg-[#fef2f2] border-2 border-red-400/25 rounded-2xl p-2.5 text-center shadow-md">
+          <div class="text-[9px] font-bold text-red-800 uppercase">Halt</div>
+          <div id="stat-hidden" class="serif-title text-base font-black text-red-950 mt-0.5">0</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Bulk Tools Trigger Panel -->
+    <section class="flex flex-wrap items-center gap-2.5 bg-amber-950/40 border border-amber-700/30 p-3 rounded-[18px] justify-end shadow-md">
+      <span class="text-xs text-amber-200 mr-auto font-bold pl-1 uppercase tracking-wider">🔱 성문 통제 명령:</span>
+
+      <a 
+        href="index.html" 
+        class="py-2 px-3.5 text-xs bg-teal-800 border-2 border-teal-600 text-teal-100 hover:bg-teal-700 rounded-xl transition-all font-black flex items-center gap-1 active:scale-95 shadow-md uppercase tracking-wider"
+      >
+        🏰 전광판 복귀
+      </a>
+      
+      <button 
+        onclick="actionRevealAll()"
+        class="py-2 px-3.5 text-xs bg-[#fdfaf2] border-2 border-amber-700 text-[#78350f] hover:bg-amber-100 hover:text-amber-950 rounded-xl transition-all font-black flex items-center gap-1 active:scale-95 shadow-md uppercase tracking-wider"
+      >
+        ✅ 전면 게재
+      </button>
+
+      <button 
+        onclick="actionDeleteHidden()"
+        class="py-2 px-3.5 text-xs bg-red-900 border-2 border-red-700 text-red-100 hover:bg-red-800 rounded-xl transition-all font-black flex items-center gap-1 active:scale-95 shadow-md uppercase tracking-wider"
+      >
+        🗑 검열품 파기
+      </button>
+
+      <button 
+        onclick="actionResetDB()"
+        class="py-2 px-3.5 text-xs bg-amber-950 border-2 border-red-600 text-red-200 hover:bg-red-950 hover:text-white rounded-xl transition-all font-black flex items-center gap-1 active:scale-95 shadow-md uppercase tracking-wider"
+      >
+        ⚠️ 성채 소각
+      </button>
+    </section>
+
+    <!-- Message list entries -->
+    <section class="space-y-3">
+      <h3 class="serif-title text-xs font-black text-amber-200 tracking-widest uppercase px-1">검수 서찰 권첩 (Letters Ledger)</h3>
+      <div id="letters-list" class="space-y-3.5">
+        <!-- Loaded dynamically -->
+        <div class="text-center text-xs text-amber-100 py-20">
+          서찰 궤짝을 개방하는 중...
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Firebase Connection Setup script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, query, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // Standard static credentials - matching the configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBY1feijTxwFceCJ-_WcRB474mou_P2VEo",
+      authDomain: "letter-1083f.firebaseapp.com",
+      databaseURL: "https://letter-1083f-default-rtdb.firebaseio.com",
+      projectId: "letter-1083f",
+      storageBucket: "letter-1083f.firebasestorage.app",
+      messagingSenderId: "348995614132",
+      appId: "1:348995614132:web:c0285f163b5cc9841e2ee1",
+      measurementId: "G-T5KB4QBLJ1"
+    };
+
+    const useFirebase = !firebaseConfig.apiKey.includes("REPLACE-WITH-YOUR-KEY") && !firebaseConfig.projectId.includes("your-project");
+
+    let db = null;
+    if (useFirebase) {
+      try {
+        const app = initializeApp(firebaseConfig);
+        db = getDatabase(app);
+      } catch (err) {
+        console.warn("Could not load Firebase, falling back to LocalStorage:", err);
+      }
+    }
+
+    function getLocalLetters() {
+      try {
+        const val = localStorage.getItem('citadel_letters');
+        return val ? JSON.parse(val) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function setLocalLetters(data) {
+      localStorage.setItem('citadel_letters', JSON.stringify(data));
+      window.dispatchEvent(new Event('storage'));
+    }
+
+    // Gate password constant
+    const ADMIN_PW = '1234';
+
+    let cachedLetters = [];
+
+    // Background floating sparks generator
+    function genDecorStars() {
+      const container = document.getElementById('stars-decor');
+      const particleCount = 45;
+      for (let i = 0; i < particleCount; i++) {
+        const star = document.createElement('div');
+        // Yellow-amber sparks
+        star.className = 'absolute bg-amber-400 rounded-full opacity-35 pointer-events-none';
+        
+        const size = Math.random() * 4 + 2; // 2px to 6px
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.boxShadow = '0 0 8px rgba(251, 191, 36, 0.4)';
+        
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+        
+        const duration = 4.0 + Math.random() * 6.0;
+        star.style.animation = `floatingSparks ${duration}s infinite ease-in-out`;
+        star.style.animationDelay = `${Math.random() * 5}s`;
+        
+        container.appendChild(star);
+      }
+    }
+
+    window.handleLoginKey = function(event) {
+      if (event.key === 'Enter') {
+        attemptLogin();
+      }
+    };
+
+    window.attemptLogin = function() {
+      const pField = document.getElementById('password-input');
+      const errMsg = document.getElementById('error-msg');
+      const inputVal = pField.value;
+
+      if (inputVal === ADMIN_PW) {
+        document.getElementById('auth-gate').classList.add('hidden');
+        document.getElementById('admin-board').classList.remove('hidden');
+        loadLetters();
+      } else {
+        errMsg.classList.remove('hidden');
+        pField.value = '';
+        pField.focus();
+      }
+    };
+
+    function loadLetters() {
+      if (useFirebase && db) {
+        const dbRef = ref(db, 'letters');
+        onValue(dbRef, (snapshot) => {
+          const data = snapshot.val() || {};
+          const items = [];
+          for (const [key, val] of Object.entries(data)) {
+            items.push({
+              key,
+              ...val
+            });
+          }
+
+          // reverse chronological
+          items.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+          cachedLetters = items;
+
+          updateDashboard(items);
+        });
+      } else {
+        // Fallback to LocalStorage
+        const renderLocal = () => {
+          const data = getLocalLetters();
+          const items = [];
+          for (const [key, val] of Object.entries(data)) {
+            items.push({
+              key,
+              ...val
+            });
+          }
+          items.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+          cachedLetters = items;
+          updateDashboard(items);
+        };
+
+        renderLocal();
+        window.addEventListener('storage', renderLocal);
+        // Poll localstorage just in case
+        setInterval(renderLocal, 1200);
+      }
+    }
+
+    function timeAgo(timestamp) {
+      if (!timestamp) return "방금 전";
+      const now = new Date().getTime();
+      const diffS = Math.floor((now - timestamp) / 1000);
+
+      if (diffS < 60) return "방금 전";
+      
+      const diffM = Math.floor(diffS / 60);
+      if (diffM < 60) return `${diffM}분 전`;
+
+      const diffH = Math.floor(diffM / 60);
+      if (diffH < 24) return `${diffH}시간 전`;
+
+      const diffD = Math.floor(diffH / 24);
+      return `${diffD}일 전`;
+    }
+
+    function updateDashboard(items) {
+      const totalCount = items.length;
+      const visibleCount = items.filter(i => i.visible !== false).length;
+      const hiddenCount = totalCount - visibleCount;
+
+      document.getElementById('stat-total').textContent = totalCount;
+      document.getElementById('stat-visible').textContent = visibleCount;
+      document.getElementById('stat-hidden').textContent = hiddenCount;
+
+      const container = document.getElementById('letters-list');
+      container.innerHTML = '';
+
+      if (totalCount === 0) {
+        container.innerHTML = `
+          <div class="text-center text-xs text-amber-800/70 py-16 bg-[#fdfaf2] rounded-2xi border-2 border-amber-800/20 p-6 shadow-md">
+            성채에 보관된 서찰편지가 올바르게 비어있습니다.
+          </div>
+        `;
+        return;
+      }
+
+      items.forEach(item => {
+        const isVisible = item.visible !== false;
+        
+        const card = document.createElement('div');
+        // Antique creamy parchment look
+        card.className = `flex flex-col md:flex-row items-start justify-between p-4 bg-[#fdfaf2] border-2 border-[#b45309] rounded-[16px] shadow-lg transition-all duration-300 gap-4 ${
+          !isVisible ? 'bg-amber-100 opacity-55 border-dashed' : ''
+        }`;
+        
+        card.innerHTML = `
+          <div class="flex items-start gap-4 flex-1 select-text">
+            <!-- Wax Seal stamp icon wrapper -->
+            <span class="text-4xl p-2 select-none flex-shrink-0 bg-[#faf3e2] border-2 border-amber-700/30 rounded-xl relative">
+              ${item.emoji || '🏰'}
+              <div class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[8px] border ${
+                isVisible ? 'bg-teal-500 border-teal-600' : 'bg-red-500 border-red-600'
+              }"></div>
+            </span>
+            <div class="space-y-1 flex-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-extrabold text-[#78350f] text-sm">${item.name}</span>
+                <span class="text-[10px] text-amber-800/80 font-bold">• ${timeAgo(item.timestamp)}</span>
+                ${!isVisible ? '<span class="text-[9px] font-black bg-red-100 border border-red-400 text-red-700 px-1.5 py-0.5 rounded-md uppercase tracking-wider select-none">검열 보류</span>' : ''}
+              </div>
+              <p class="text-xs text-amber-950 font-medium leading-relaxed break-words" style="word-break: break-all; font-family: 'Noto Sans KR', sans-serif;">
+                ${item.message}
+              </p>
+            </div>
+          </div>
+
+          <!-- Controls panel menu -->
+          <div class="flex items-center gap-2.5 md:self-center flex-shrink-0 w-full md:w-auto justify-end border-t border-amber-700/10 pt-3 md:pt-0 md:border-none">
+            <button 
+              onclick="toggleVisibility('${item.key}', ${isVisible})"
+              class="px-3.5 py-1.5 rounded-xl text-xs font-black transition-all border-2 ${
+                isVisible 
+                  ? 'bg-amber-50 border-amber-700 text-amber-800 hover:bg-amber-100' 
+                  : 'bg-teal-950 border-teal-600 text-[#2dd4bf] hover:bg-teal-900 shadow-sm'
+              }"
+            >
+              ${isVisible ? '🙈 봉인 검열' : '👁️ 장막 통과'}
+            </button>
+            
+            <button 
+              onclick="deleteLetter('${item.key}')"
+              class="px-3.5 py-1.5 rounded-xl text-xs font-black bg-red-900 border-2 border-red-700 text-red-50 hover:bg-red-800 transition-all uppercase tracking-wider"
+            >
+              🗑 파기
+            </button>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    window.toggleVisibility = async function(key, currentVisible) {
+      try {
+        if (useFirebase && db) {
+          const itemRef = ref(db, `letters/${key}`);
+          await update(itemRef, { visible: !currentVisible });
+        } else {
+          const localData = getLocalLetters();
+          if (localData[key]) {
+            localData[key].visible = !currentVisible;
+            setLocalLetters(localData);
+          }
+        }
+      } catch (err) {
+        console.error("숨김 상태 업데이트 실패:", err);
+      }
+    };
+
+    window.deleteLetter = async function(key) {
+      if (confirm("이 기사의 서찰을 영구히 용광로에 처분하시겠습니까?")) {
+        try {
+          if (useFirebase && db) {
+            const itemRef = ref(db, `letters/${key}`);
+            await remove(itemRef);
+          } else {
+            const localData = getLocalLetters();
+            if (localData[key]) {
+              delete localData[key];
+              setLocalLetters(localData);
+            }
+          }
+        } catch (err) {
+          console.error("편지 삭제 실패:", err);
+        }
+      }
+    };
+
+    window.actionRevealAll = async function() {
+      if (cachedLetters.length === 0) return;
+      try {
+        if (useFirebase && db) {
+          const promises = cachedLetters
+             .filter(item => item.visible === false)
+             .map(item => {
+               const itemRef = ref(db, `letters/${item.key}`);
+               return update(itemRef, { visible: true });
+             });
+
+          if (promises.length === 0) return;
+          await Promise.all(promises);
+        } else {
+          const localData = getLocalLetters();
+          Object.keys(localData).forEach(k => {
+            localData[k].visible = true;
+          });
+          setLocalLetters(localData);
+        }
+        alert("성채 가로막에 갇혀있던 모든 서찰이 전부에 무사 공표되었습니다.");
+      } catch (err) {
+        console.error("전체 표시 전환 실패:", err);
+      }
+    };
+
+    window.actionDeleteHidden = async function() {
+      const hiddenList = cachedLetters.filter(item => item.visible === false);
+      if (hiddenList.length === 0) {
+        alert("성채 장막 뒤에 소각 폐기할 보류 서찰이 없습니다.");
+        return;
+      }
+
+      if (confirm(`현재 보류 검열 중인 서찰 ${hiddenList.length}개를 모두 황금용광로에 소각합니까?`)) {
+        try {
+          if (useFirebase && db) {
+            const promises = hiddenList.map(item => remove(ref(db, `letters/${item.key}`)));
+            await Promise.all(promises);
+          } else {
+            const localData = getLocalLetters();
+            hiddenList.forEach(item => {
+              delete localData[item.key];
+            });
+            setLocalLetters(localData);
+          }
+          alert("숨겨져 있던 의심 서찰들을 전부 소각 완료하였습니다.");
+        } catch (err) {
+          console.error("인라인 숨김 일괄 삭제 실패:", err);
+        }
+      }
+    };
+
+    window.actionResetDB = async function() {
+      if (confirm("성채를 초기화하여 보관되어 있는 모든 기사단 서찰 연대기를 완전 백지 소각합니까?")) {
+        try {
+          if (useFirebase && db) {
+            const dbRef = ref(db, 'letters');
+            await remove(dbRef);
+          } else {
+            setLocalLetters({});
+          }
+          alert("서찰 연대기 완전 소각이 완료되었습니다.");
+        } catch (err) {
+          console.error("전체 삭제 리셋 실패:", err);
+        }
+      }
+    };
+
+    window.onload = () => {
+      genDecorStars();
+    };
+  </script>
+</body>
+</html>
